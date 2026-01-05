@@ -16,7 +16,6 @@ import (
 )
 
 const (
-	defaultBaseURL    = "http://192.168.0.104"
 	defaultSource     = "coaxial"
 	scanTimeout       = 100 * time.Millisecond
 	httpClientTimeout = 5 * time.Second
@@ -51,7 +50,10 @@ func main() {
 	// Get base URL from environment or use default
 	baseURL := os.Getenv("KEF_URL")
 	if baseURL == "" {
-		baseURL = defaultBaseURL
+		fmt.Fprintf(os.Stderr, "Error: KEF_URL environment variable is not set\n")
+		fmt.Fprintf(os.Stderr, "Please set it with: export KEF_URL=http://0.0.0.0\n")
+		fmt.Fprintf(os.Stderr, "Or run 'kef scan' to find your speakers\n")
+		os.Exit(1)
 	}
 
 	// Parse command line arguments
